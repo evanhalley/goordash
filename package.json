@@ -1,0 +1,40 @@
+{
+  "name": "@evanhalley/goordash",
+  "version": "0.0.1",
+  "description": "Node CLI tool to transfer your Google Takeout backup from Drive",
+  "main": "dist/src/goordash-cli.js",
+  "types": "dist/src/goordash-cli.d.ts",
+  "bin": {
+    "goordash-cli": "dist/src/goordash-cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --build",
+    "start": "tsc --build && node dist/src/goordash-cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evanhalley/goordash.git"
+  },
+  "keywords": [
+    "node",
+    "google",
+    "drive",
+    "typescript"
+  ],
+  "author": "Evan Halley - (https://evanhalley.dev/me)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/evanhalley/goordash/issues"
+  },
+  "homepage": "https://github.com/evanhalley/goordash#readme",
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.33.1",
+    "@typescript-eslint/parser": "^5.33.1",
+    "commander": "^9.4.0",
+    "googleapis": "^107.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.7.8"
+  }
+}
