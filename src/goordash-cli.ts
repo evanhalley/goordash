@@ -40,7 +40,22 @@ async function download(resource, options) {
   const credentials = await getCredentials(options['credentials']);
   const token = await getToken(options['token']);
   const gdriveUtil = new GDriveUtil(credentials, token);
-  await gdriveUtil.listFiles(resource);
+  const files = await gdriveUtil.getFiles(resource);
+  const batchSize = parseInt(options['batchSize']);
+  let promises = [];
+
+  while (files.length > 0) {
+    const file = files.pop();
+
+    if (promises.length < batchSize) {
+      promises.push(gdriveUtil.downloadFile(file.id, file.name, options.outputDir));
+    } 
+    
+    if (promises.length == batchSize || files.length == 0) {
+      await Promise.allSettled(promises);
+      promises = [];
+    }
+  }
 }
 
 (async() => {
@@ -53,18 +68,20 @@ async function download(resource, options) {
     
   program
     .command('auth')
-    .option('-c, --credentials', 'Credentials JSON file', `${os.homedir()}/.goordash/credentials.json`)
+    .option('-c, --credentials <credentials file>', 'Credentials JSON file', `${os.homedir()}/.goordash/credentials.json`)
     .action(async (options) => await auth(options));
 
   program
     .command('init <code>')
-    .option('-c, --credentials', 'Credentials JSON file', `${os.homedir()}/.goordash/credentials.json`)
+    .option('-c, --credentials <credentials file>', 'Credentials JSON file', `${os.homedir()}/.goordash/credentials.json`)
     .action(async (code, options) => await init(code, options));
     
   program
     .command('download <resource>')
-    .option('-c, --credentials', 'Credentials JSON file', `${os.homedir()}/.goordash/credentials.json`)
-    .option('-t, --token', 'Token', `${os.homedir()}/.goordash/token.json`)
+    .option('-o, --output-dir <output directory>', 'Directory to download the files')
+    .option('-b, --batch-size <batch size>', 'Number of files to download in parallel', '5')
+    .option('-c, --credentials <credentials file>', 'Credentials JSON file', `${os.homedir()}/.goordash/credentials.json`)
+    .option('-t, --token <token file>', 'Token', `${os.homedir()}/.goordash/token.json`)
     .action(async (resource, options) => await download(resource, options));
 
   try {
