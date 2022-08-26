@@ -5,8 +5,8 @@ const fs = require('fs').promises;
 const os = require('os');
 const GDriveUtil = require('./gdrive-util');
 
-const TOKEN_FILE = `${os.homedir()}/.goordash/token.json`;
-const CREDENTIALS_FILE = `${os.homedir()}/.goordash/credentials.json`;
+const TOKEN_FILE = `${os.homedir()}/.takeout-express/token.json`;
+const CREDENTIALS_FILE = `${os.homedir()}/.takeout-express/credentials.json`;
 
 async function getCredentials(credentialsFile) {
   const buffer = await fs.readFile(credentialsFile);
@@ -29,7 +29,7 @@ async function auth(options) {
   const credentials = await getCredentials(options['credentials']);
   const gdriveUtil = new GDriveUtil(credentials);
   const authUrl = gdriveUtil.getAuthorizationUrl();
-  console.info(`Open the following URL in a web browser:\n\n${authUrl}\n\nAfter authorization, copy the code from the resulting URL and execute:\n\ngoordash init [authorization code]`);
+  console.info(`Open the following URL in a web browser:\n\n${authUrl}\n\nAfter authorization, copy the code from the resulting URL and execute:\n\ntakeout-express init [authorization code]`);
 }
 
 async function init(code, options) {

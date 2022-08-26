@@ -1,17 +1,17 @@
 {
-  "name": "@evanhalley/goordash",
+  "name": "@evanhalley/takeout-express",
   "version": "0.0.1",
-  "description": "Node CLI tool to transfer your Google Takeout backup from Drive",
-  "main": "src/goordash-cli.js",
+  "description": "Node CLI tool to download your Google Takeout backup from Drive",
+  "main": "src/takeout-express-cli.js",
   "bin": {
-    "goordash-cli": "src/goordash-cli.js"
+    "takeout-express": "src/takeout-express-cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/evanhalley/goordash.git"
+    "url": "git+https://github.com/evanhalley/takeout-express.git"
   },
   "keywords": [
     "node",
@@ -21,9 +21,9 @@
   "author": "Evan Halley - (https://evanhalley.dev/me)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/evanhalley/goordash/issues"
+    "url": "https://github.com/evanhalley/takeout-express/issues"
   },
-  "homepage": "https://github.com/evanhalley/goordash#readme",
+  "homepage": "https://github.com/evanhalley/takeout-express#readme",
   "dependencies": {
     "commander": "^9.4.0",
     "googleapis": "^107.0.0"
