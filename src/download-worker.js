@@ -9,5 +9,5 @@ parentPort.on('message', async (message) => {
   if (data) {
     await gdriveUtil.getDownloadFileStream(data.id, data.name, data.outputDir);
   }
-  parentPort.postMessage('idle');
+  parentPort.postMessage({ status: 'idle' });
 });

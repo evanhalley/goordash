@@ -1,8 +1,8 @@
 const { Command } = require('commander');
-const fs = require('fs').promises;
 const { Worker } = require('worker_threads');
-const os = require('os');
 const { version, description } = require('../package.json');
+const fs = require('fs').promises;
+const os = require('os');
 const GDriveUtil = require('./gdrive-util');
 
 const TOKEN_FILE = `${os.homedir()}/.goordash/token.json`;
@@ -29,7 +29,7 @@ async function auth(options) {
   const credentials = await getCredentials(options['credentials']);
   const gdriveUtil = new GDriveUtil(credentials);
   const authUrl = gdriveUtil.getAuthorizationUrl();
-  console.log(`Open the following URL in a web browser:\n\n${authUrl}\n\nAfter authorization, copy the code from the resulting URL and execute:\n\ngoordash init [authorization code]`);
+  console.info(`Open the following URL in a web browser:\n\n${authUrl}\n\nAfter authorization, copy the code from the resulting URL and execute:\n\ngoordash init [authorization code]`);
 }
 
 async function init(code, options) {
@@ -63,22 +63,28 @@ async function getWorkerThreadPool(numberOfWorkers, workerData, queueFn) {
 
   for (let i = 0; i < numberOfWorkers; i++) {
     const worker = new Worker('./src/download-worker.js', workerData);
+    const threadId = worker.threadId;
+    console.info(`Creating worker ${threadId}`);
+
     worker.on('message', async (message) => {
 
-      switch (message) {
+      switch (message.status) {
         case 'idle':
           const work = queueFn();
 
           if (work) {
             worker.postMessage({ data: { ...work }});
           } else {
-            console.log('terminating');
+            console.info(`Terminating worker ${threadId}`);
             await worker.terminate();
           }
           break;
       }
-
     });
+
+    worker.on('error', (error) => {
+      console.error(`Error in worker ${threadId}: `, error);
+    })
     pool.push(worker);
   }
   return pool;

@@ -34,6 +34,7 @@ module.exports = class GDriveUtil {
   }
 
   async getFiles(resource) {
+    console.info(`Getting list of files @ ${resource}`);
     const files = [];
     const drive = google.drive({ version: 'v3', auth: this.oAuth2Client });
     let nextPageToken = null;
@@ -54,7 +55,8 @@ module.exports = class GDriveUtil {
       for (const { id, name } of response.data.files) {
         files.push({ id: id, name: name });
       }
-    } while (nextPageToken)
+    } while (nextPageToken);
+    console.info(`${files.length} files found`);
     return files;
   }
 
