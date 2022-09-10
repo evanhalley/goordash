@@ -1,5 +1,5 @@
 {
-  "name": "@evanhalley/takeout-express",
+  "name": "takeout-express",
   "version": "0.0.2",
   "description": "takeout-express is command line interface tool, written with Nodejs, that downloads your Google Takeout backup from Google Drive",
   "main": "src/takeout-express-cli.js",
