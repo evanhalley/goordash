@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const { Command } = require('commander');
 const { Worker } = require('worker_threads');
 const { version, description } = require('../package.json');
@@ -49,7 +51,7 @@ async function download(resource, options) {
       { ...files.pop(), outputDir: options.outputDir } : 
       null;
   };
-  const pool = await getWorkerThreadPool(10, 
+  const pool = await getWorkerThreadPool(options.workerThreads, 
     { workerData: { credentials: credentials, token: token } },
     queueFn);
 
@@ -111,7 +113,7 @@ async function getWorkerThreadPool(numberOfWorkers, workerData, queueFn) {
   program
     .command('download <resource>')
     .option('-o, --output-dir <output directory>', 'Directory to download the files')
-    .option('-b, --batch-size <batch size>', 'Number of files to download in parallel', '5')
+    .option('-w, --worker-threads <batch size>', 'Number of threads downloading files', '5')
     .option('-c, --credentials <credentials file>', 'Credentials JSON file', CREDENTIALS_FILE)
     .option('-t, --token <token file>', 'Token', TOKEN_FILE)
     .action(async (resource, options) => await download(resource, options));

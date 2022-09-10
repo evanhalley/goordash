@@ -1,7 +1,7 @@
 {
   "name": "@evanhalley/takeout-express",
-  "version": "0.0.1",
-  "description": "Node CLI tool to download your Google Takeout backup from Drive",
+  "version": "0.0.2",
+  "description": "takeout-express is command line interface tool, written with Nodejs, that downloads your Google Takeout backup from Google Drive",
   "main": "src/takeout-express-cli.js",
   "bin": {
     "takeout-express": "src/takeout-express-cli.js"
@@ -27,6 +27,5 @@
   "dependencies": {
     "commander": "^9.4.0",
     "googleapis": "^107.0.0"
-  },
-  "devDependencies": {}
+  }
 }
